@@ -1,0 +1,40 @@
+.main-image-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-bottom: 16px;
+  }
+  
+  .main-image {
+    max-width: 100%;
+    height: auto;
+    border-radius: 8px;
+  }
+  
+  .carousel {
+    margin: 16px 0;
+    height: 100px;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+  }
+  
+  .carousel-image {
+    max-width: 100px;
+    height: auto;
+    border-radius: 8px;
+    cursor: pointer;
+    aspect-ratio: 16 / 9;
+    overflow: hidden;
+    margin-right: 10px; /* Adds a gap between images */
+  }
+
+  ion-slide:last-child .carousel-image {
+    margin-right: 0;
+  }
+
+  ion-card-content p {
+    white-space: pre-wrap;
+    word-wrap: break-word;
+  }

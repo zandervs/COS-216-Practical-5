@@ -1,0 +1,35 @@
+<ion-header [translucent]="true">
+  <ion-toolbar>
+    <ion-title>{{ property?.title }}</ion-title>
+    <ion-progress-bar *ngIf="isLoading" type="indeterminate"></ion-progress-bar>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content [fullscreen]="true" *ngIf="property">
+  <ion-header collapse="condense">
+    <ion-toolbar>
+      <ion-title size="large">{{ property?.title }}</ion-title>
+    </ion-toolbar>
+  </ion-header>
+
+  <div class="main-image-container">
+    <img [src]="mainImage" [alt]="property.title" class="main-image">
+  </div>
+
+  <ion-slides pager="false" class="carousel" [options]="slideOpts">
+    <ion-slide *ngFor="let image of images">
+      <img [src]="image" [alt]="property.title" (click)="setMainImage(image)" class="carousel-image">
+    </ion-slide>
+  </ion-slides>
+
+  <ion-card>
+    <ion-card-header>
+      <ion-card-title>{{ property.price | customCurrency }}</ion-card-title>
+      <ion-card-subtitle>{{ property.bedrooms }} bedrooms, {{ property.bathrooms }} bathrooms</ion-card-subtitle>
+    </ion-card-header>
+  
+    <ion-card-content>
+      <p [innerHTML]="formatDescription(property.description)"></p>
+    </ion-card-content>
+  </ion-card>
+</ion-content>

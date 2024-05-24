@@ -1,6 +1,7 @@
 <ion-header [translucent]="true">
   <ion-toolbar>
     <ion-title>Listings</ion-title>
+    <ion-progress-bar *ngIf="isLoading" type="indeterminate"></ion-progress-bar>
   </ion-toolbar>
 </ion-header>
 
@@ -11,5 +12,21 @@
     </ion-toolbar>
   </ion-header>
 
-  <!-- Your content goes here -->
+  <ng-container *ngIf="!isLoading">
+    <ion-card *ngFor="let listing of listings">
+      <div class="card-image-container">
+        <img [alt]="listing.title" [src]="listing.images[0]" />
+      </div>
+      <ion-card-header>
+        <ion-card-title>{{ listing.price | currency }}</ion-card-title>
+        <ion-card-subtitle>{{ listing.bedrooms }} bedroom house in {{ listing.location }}</ion-card-subtitle>
+      </ion-card-header>
+  
+      <ion-card-content>
+        <p>{{ listing.description }}</p>
+      </ion-card-content>
+
+      <ion-button [routerLink]="['/view', listing.id]">View Listing</ion-button>
+    </ion-card>
+  </ng-container>
 </ion-content>
