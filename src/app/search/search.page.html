@@ -7,9 +7,65 @@
 <ion-content [fullscreen]="true">
   <ion-header collapse="condense">
     <ion-toolbar>
-      <ion-title size="large">Search</ion-title>
+      <ion-title size="large">Search for a location</ion-title>
     </ion-toolbar>
   </ion-header>
 
-  <!-- Your content goes here -->
+  <ion-searchbar [(ngModel)]="searchLocation" (ionChange)="onSearchChange()" show-cancel-button="focus" placeholder="Search listings"></ion-searchbar>
+  <ion-list>
+    <ion-grid>
+      <ion-row>
+        <ion-col>
+			<ion-item>
+			  <ion-select [(ngModel)]="sortOrder" label="Sort by price" placeholder="Select an option" label-placement="floating" fill="outline">
+				<ion-select-option value="ASC">Ascending</ion-select-option>
+				<ion-select-option value="DESC">Descending</ion-select-option>
+			  </ion-select>
+			</ion-item>
+        </ion-col>
+      </ion-row>
+      <ion-row>
+        <ion-col>
+			<ion-item>
+			  <ion-select [(ngModel)]="propertyType" label="Property type" placeholder="Select an option" label-placement="floating" fill="outline">
+				<ion-select-option value="Buy">Buy</ion-select-option>
+				<ion-select-option value="Rent">Rent</ion-select-option>
+			  </ion-select>
+			</ion-item>
+        </ion-col>
+      </ion-row>
+    </ion-grid>
+  
+    <ion-item>
+      <ion-label position="floating">Min price</ion-label>
+      <ion-input [(ngModel)]="minPrice" type="number"></ion-input>
+    </ion-item>
+
+    <ion-item>
+      <ion-label position="floating">Max price</ion-label>
+      <ion-input [(ngModel)]="maxPrice" type="number"></ion-input>
+    </ion-item>
+  </ion-list>
+
+  <ion-button class="search-button" (click)="performSearch()">Search</ion-button>
+
+  <ng-container *ngIf="!isLoading">
+    <ion-card *ngFor="let listing of listings">
+      <div class="card-image-container">
+        <img [alt]="listing.title" [src]="listing.images[0]" />
+      </div>
+      <ion-card-header>
+        <ion-card-title>{{ listing.price | customCurrency }}</ion-card-title>
+        <ion-card-subtitle>{{ listing.bedrooms }} bedroom house in {{ listing.location }}</ion-card-subtitle>
+      </ion-card-header>
+  
+      <ion-card-content>
+        <p>{{ listing.description }}</p>
+      </ion-card-content>
+
+      <ion-button [routerLink]="['/view', listing.id]" class="card-button">View Listing</ion-button>
+    </ion-card>
+  </ng-container>
+
+  <ion-progress-bar *ngIf="isLoading" type="indeterminate"></ion-progress-bar>
 </ion-content>
