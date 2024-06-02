@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Storage } from '@ionic/storage-angular';
+import { ToastController } from '@ionic/angular';
 
 @Component({
   selector: 'app-listings',
@@ -11,7 +12,7 @@ export class ListingsPage implements OnInit {
   listings: any[] = [];
   isLoading = true;
 
-  constructor(private http: HttpClient, private storage: Storage) {
+  constructor(private http: HttpClient, private storage: Storage, private toastController: ToastController) {
     this.initializeStorage();
   }
 
@@ -25,6 +26,8 @@ export class ListingsPage implements OnInit {
   }
 
   getListings(apiKey: string) {
+    this.isLoading = true;
+
     const headers = new HttpHeaders({
       'Content-Type': 'application/json',
       'Authorization': `Basic ${btoa('u23540207:bydpic-qeFmo3-wujpym')}`,
@@ -72,6 +75,19 @@ export class ListingsPage implements OnInit {
       });
   }
 
+  async refreshListings(event: any) {
+    const apiKey = await this.storage.get('apiKey');
+    this.listings = [];
+    this.getListings(apiKey);
+    event.target.complete();
+    const toast = await this.toastController.create({
+      message: 'Latest data has been fetched.',
+      duration: 2000,
+      position: 'bottom'
+    });
+    await toast.present();
+  }
+
   formatDescription(description: string): string {
     if (description.startsWith(", ")) {
       description = description.slice(2);
@@ -85,6 +101,5 @@ export class ListingsPage implements OnInit {
 
   viewListing(id: number) {
     console.log('View listing with ID:', id);
-    // Navigate to the listing details page or show the listing details here
   }
 }

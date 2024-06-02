@@ -12,6 +12,10 @@
     </ion-toolbar>
   </ion-header>
 
+  <ion-refresher slot="fixed" (ionRefresh)="refreshListings($event)">
+    <ion-refresher-content></ion-refresher-content>
+  </ion-refresher>
+
   <ng-container *ngIf="!isLoading">
     <ion-card *ngFor="let listing of listings">
       <div class="card-image-container">
